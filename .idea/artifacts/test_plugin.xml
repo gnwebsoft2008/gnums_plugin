@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="test_plugin">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="root">
+      <element id="module-output" name="gnums_plugin.main" />
+      <element id="library" level="module" name="Gradle: com.jetbrains:ideaIC:2023.2.8" module-name="gnums_plugin.test" />
+      <element id="library" level="project" name="Gradle: org.jetbrains:annotations:24.0.1" />
+    </root>
+  </artifact>
+</component>

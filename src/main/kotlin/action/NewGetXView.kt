@@ -19,15 +19,15 @@ open class NewGetXView(private val getXListener: GetXListener) {
     /**
      * Overall popup entity
      */
-    private var jDialog: JDialog = JDialog(JFrame(), "GetX Template Code Produce")
+    private var jDialog: JDialog = JDialog(JFrame(), "GNW Template Code Produce")
     lateinit var nameTextField: JTextField
     lateinit var modeGroup: ButtonGroup
 
     /**
      * select Function：main Function
      */
-    lateinit var getX5Box: JCheckBox
-    lateinit var folderBox: JCheckBox
+//    lateinit var getX5Box: JCheckBox
+//    lateinit var folderBox: JCheckBox
     lateinit var prefixBox: JCheckBox
     lateinit var pageViewBox: JCheckBox
 
@@ -95,7 +95,7 @@ open class NewGetXView(private val getXListener: GetXListener) {
     private fun setMode(container: Container) {
         //Two rows and two columns
         val template = JPanel()
-        template.layout = GridLayout(1, 2)
+        template.layout = GridLayout(2, 2)
         //Set the main module style：mode, function
         template.border = BorderFactory.createTitledBorder("Select Mode")
 
@@ -111,11 +111,27 @@ open class NewGetXView(private val getXListener: GetXListener) {
         easyBtn.actionCommand = GetXName.ModeEasy
         easyBtn.addActionListener(actionChangeListener)
         easyBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
+
+        //controller code generator button
+        val controllerBtn = JRadioButton(GetXName.Controller, data.Controller)
+        controllerBtn.actionCommand = GetXName.Controller
+        controllerBtn.addActionListener(actionChangeListener)
+        controllerBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
+
+        //ListView code generator button
+        val listViewBtn = JRadioButton(GetXName.ListView, data.ListView)
+        listViewBtn.actionCommand = GetXName.ListView
+        listViewBtn.addActionListener(actionChangeListener)
+        listViewBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
+
         template.add(easyBtn)
+        template.add(controllerBtn)
+        template.add(listViewBtn)
 
         modeGroup = ButtonGroup()
-//        modeGroup.add(defaultBtn)
         modeGroup.add(easyBtn)
+        modeGroup.add(controllerBtn)
+        modeGroup.add(listViewBtn)
 
         container.add(template)
         setSpacing(container)
@@ -131,15 +147,15 @@ open class NewGetXView(private val getXListener: GetXListener) {
 
         //use getX5
 //        getX5Box = JCheckBox(GetXName.mainUseGetX5, data.function.useGetX5)
-        getX5Box.addActionListener(actionChangeListener)
-        setMargin(getX5Box)
-        main.add(getX5Box)
+//        getX5Box.addActionListener(actionChangeListener)
+//        setMargin(getX5Box)
+//        main.add(getX5Box)
 
         //use folder
 //        folderBox = JCheckBox(GetXName.mainUseFolder, data.function.useFolder)
-        folderBox.addActionListener(actionChangeListener)
-        setMargin(folderBox)
-        main.add(folderBox)
+//        folderBox.addActionListener(actionChangeListener)
+//        setMargin(folderBox)
+//        main.add(folderBox)
 
         //use prefix
         prefixBox = JCheckBox(GetXName.mainUsePrefix, data.function.usePrefix)
@@ -220,37 +236,37 @@ open class NewGetXView(private val getXListener: GetXListener) {
 //        return template
 //    }
 
-    private fun setFunctionTab(main: JPanel, minor: JPanel, template: JPanel, container: Container) {
-        val function = JPanel()
-        function.border = BorderFactory.createTitledBorder("Select Function")
-
-        //add tab
-        val tab = JBTabbedPane()
-        tab.addTab("Main", main)
-        tab.addTab("Minor", minor)
-        tab.addTab("Template", template)
-        tab.addChangeListener {
-            data.function.funTabIndex = tab.selectedIndex
-        }
-        tab.selectedIndex = data.function.funTabIndex
-
-        function.add(tab)
-        container.add(function)
-        setSpacing(container)
-
-        /// deal listener
-        pageViewBox.addActionListener {
-            if (disposeBox.isSelected && pageViewBox.isSelected) {
-                disposeBox.isSelected = false
-            }
-        }
-        disposeBox.addActionListener {
-            if (disposeBox.isSelected && pageViewBox.isSelected) {
-                pageViewBox.isSelected = false
-            }
-        }
-
-    }
+//    private fun setFunctionTab(main: JPanel, minor: JPanel, template: JPanel, container: Container) {
+//        val function = JPanel()
+//        function.border = BorderFactory.createTitledBorder("Select Function")
+//
+//        //add tab
+//        val tab = JBTabbedPane()
+//        tab.addTab("Main", main)
+//        tab.addTab("Minor", minor)
+//        tab.addTab("Template", template)
+//        tab.addChangeListener {
+//            data.function.funTabIndex = tab.selectedIndex
+//        }
+//        tab.selectedIndex = data.function.funTabIndex
+//
+//        function.add(tab)
+//        container.add(function)
+//        setSpacing(container)
+//
+//        /// deal listener
+//        pageViewBox.addActionListener {
+//            if (disposeBox.isSelected && pageViewBox.isSelected) {
+//                disposeBox.isSelected = false
+//            }
+//        }
+//        disposeBox.addActionListener {
+//            if (disposeBox.isSelected && pageViewBox.isSelected) {
+//                pageViewBox.isSelected = false
+//            }
+//        }
+//
+//    }
 
     /**
      * Generate file name and button

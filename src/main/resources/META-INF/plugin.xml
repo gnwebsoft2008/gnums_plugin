@@ -29,10 +29,65 @@
 <!--    </extensions>-->
 <!--</idea-plugin>-->
 <idea-plugin>
-    <id>com.example.gnw</id>
+    <id>com.gnwebsoft.gnw</id>
     <name>GNW File Generator</name>
     <version>1.0</version>
     <vendor email="divyank.gnwebsoft@example.com" url="https://gitlab.com/divyankraja/gnw_plugin">GNWebsoft</vendor>
     <description>Generates GNW structure files for Flutter projects.</description>
     <depends>com.intellij.modules.lang</depends>
+    <!-- Write plugin actions -->
+    <actions>
+        <!-- Add your actions here -->
+        <action id="com.xdd.NewGetX" class="action.NewGetXAction" text="GNW File" description="Create template code"
+                icon="/images/ic_gnums_launcher-1.png">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="com.xdd.NewGetX"/>
+        </action>
+<!--        <group id="MyIdeaDemo.HelloAction" text="MyIdeaDemo" description="Demo for testing">-->
+<!--            <add-to-group group-id="MainMenu" anchor="last"/>-->
+<!--            <action class="action.NewGetXAction" id="MyIdeaDemo.Action.HelloAction" text="Say Hello"></action>-->
+<!--        </group>-->
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- application level-->
+        <applicationService serviceImplementation="helper.DataService"/>
+        <applicationConfigurable parentId="tools"
+                                 instance="setting.SettingsConfigurable"
+                                 id="SettingsConfigurable"
+                                 displayName="GetX Setting"/>
+    </extensions>
+
+    <!--  https://plugins.jetbrains.com/docs/intellij/template-support.html#completing-the-live-template-implementation  -->
+    <extensions defaultExtensionNs="com.intellij">
+        <defaultLiveTemplates file="liveTemplates/getX.xml"/>
+        <liveTemplateContext implementation="live_templates.GetXContext" contextId="FLUTTER"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!--Obx Action-->
+<!--        <intentionAction>-->
+<!--            <className>intention_action.WrapWithObxAction</className>-->
+<!--            <category>GetX</category>-->
+<!--        </intentionAction>-->
+        <!--GetBuilder Action-->
+<!--        <intentionAction>-->
+<!--            <className>intention_action.WrapWithGetBuilderAction</className>-->
+<!--            <category>GetX</category>-->
+<!--        </intentionAction>-->
+        <!--Observer Action-->
+<!--        <intentionAction>-->
+<!--            <className>intention_action.WrapWithObserverAction</className>-->
+<!--            <category>GetX</category>-->
+<!--        </intentionAction>-->
+        <!--GetBuilder(Auto Dispose) Action-->
+<!--        <intentionAction>-->
+<!--            <className>intention_action.WrapWithGetBuilderAutoDisposeAction</className>-->
+<!--            <category>GetX</category>-->
+<!--        </intentionAction>-->
+        <!--GetX Action-->
+<!--        <intentionAction>-->
+<!--            <className>intention_action.WrapWithGetXAction</className>-->
+<!--            <category>GetX</category>-->
+<!--        </intentionAction>-->
+    </extensions>
 </idea-plugin>

@@ -14,7 +14,7 @@ data class TemplateInfo(
 ///select function
 data class FunctionInfo(
     //default true
-//    var useGetX5: Boolean = true,
+    var useGetX5: Boolean = true,
     //default true
 //    var useFolder: Boolean = false,
     //default false
@@ -41,6 +41,24 @@ data class ModuleNameSuffix(
     //state layer name
 //    var stateName: String = "State",
 )
+
+
+//region List View region
+data class ListView(
+    var ListViewName: String = "ListView",
+)
+class ListViewConverter : Converter<ListView>(){
+    override fun toString(value: ListView): String? {
+        return Gson().toJson(value)
+    }
+
+    override fun fromString(value: String): ListView? {
+        return Gson().fromJson(value, ListView::class.java)
+    }
+
+}
+//endregion
+
 
 //Setting Info
 data class SettingInfo(

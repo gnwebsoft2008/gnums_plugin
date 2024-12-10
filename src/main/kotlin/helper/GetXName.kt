@@ -4,6 +4,8 @@ object GetXName {
     // mode
 //    const val ModeDefault = "Default"
     const val ModeEasy = "Easy"
+    const val Controller = "Controller"
+    const val ListView = "ListView"
 
     //main function
 //    const val mainUseGetX5 = "useGetX5"

@@ -1,7 +1,7 @@
 package helper
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
@@ -12,13 +12,19 @@ import com.intellij.util.xmlb.annotations.OptionTag
 //custom save location
 @State(name = "DataService", storages = [Storage(value = "DataService.xml")])
 class DataService : PersistentStateComponent<DataService> {
-    //default true: use default mode
-//    @JvmField
 //    var modeDefault = true
 
+    //default true: use default mode
+//    @JvmField
     //default true：default not use easy mode
     @JvmField
     var modeEasy = true
+
+    @JvmField
+    var Controller = false
+
+    @JvmField
+    var ListView = false
 
     //module name suffix
     @JvmField
@@ -29,6 +35,13 @@ class DataService : PersistentStateComponent<DataService> {
         logicName = "Logic",
 //        stateName = "State",
     )
+
+    //region list view...
+    @OptionTag(converter = ListViewConverter::class)
+    var list = ListView(
+        ListViewName = "ListView"
+    )
+    //endregion
 
     //select function
     @JvmField
@@ -78,6 +91,6 @@ class DataService : PersistentStateComponent<DataService> {
     companion object {
         @JvmStatic
         val instance: DataService
-            get() = ServiceManager.getService(DataService::class.java)
+            get() = ApplicationManager.getApplication().getService(DataService::class.java)
     }
 }

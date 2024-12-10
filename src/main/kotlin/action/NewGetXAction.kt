@@ -12,6 +12,7 @@ import helper.GetXName
 import helper.TemplateInfo
 import java.io.*
 import java.util.*
+import javax.swing.text.html.ListView
 import kotlin.collections.HashMap
 
 
@@ -45,9 +46,12 @@ class NewGetXAction : AnAction() {
 
                 //deal default value
                 val modelType = view.modeGroup.selection.actionCommand
+//                val ControllerType = view.modeGroup.selection.actionCommand
+//                val ListViewType = view.modeGroup.selection.actionCommand
 //                data.modeDefault = (GetXName.ModeDefault == modelType)
                 data.modeEasy = (GetXName.ModeEasy == modelType)
-
+                data.Controller = (GetXName.Controller == modelType)
+                data.ListView = (GetXName.ListView == modelType)
                 //function area
 //                data.function.useGetX5 = view.getX5Box.isSelected
 //                data.function.useFolder = view.folderBox.isSelected
@@ -118,6 +122,9 @@ class NewGetXAction : AnAction() {
         if (data.modeEasy) {
             generateEasy(path, prefixName)
         }
+        if (data.ListView){
+            generateViewFile(path, prefixName)
+        }
 
         //add binding file
 //        if (data.function.addBinding) {
@@ -142,6 +149,11 @@ class NewGetXAction : AnAction() {
         )
         generateFile(
             "easy/view.dart", path, "${prefixName}${data.module.viewFileName.lowercase(Locale.getDefault())}.dart"
+        )
+    }
+    private fun generateViewFile(path: String, prefixName: String) {
+        generateFile(
+            "ListView/view.dart", path, "${prefixName}${data.list.ListViewName.lowercase(Locale.getDefault())}.dart"
         )
     }
 
