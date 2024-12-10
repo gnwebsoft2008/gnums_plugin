@@ -32,7 +32,7 @@
     <id>com.example.gnw</id>
     <name>GNW File Generator</name>
     <version>1.0</version>
-    <vendor email="divyank.gnwebsoft@example.com" url="https://your.website">GNWebsoft</vendor>
+    <vendor email="divyank.gnwebsoft@example.com" url="https://gitlab.com/divyankraja/gnw_plugin">GNWebsoft</vendor>
     <description>Generates GNW structure files for Flutter projects.</description>
     <depends>com.intellij.modules.lang</depends>
 </idea-plugin>
