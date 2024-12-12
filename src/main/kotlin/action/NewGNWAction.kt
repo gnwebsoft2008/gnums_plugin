@@ -57,7 +57,7 @@ class NewGNWAction : AnAction() {
      */
     private fun save(): Boolean {
         if ("" == moduleName.trim { it <= ' ' }) {
-            Messages.showInfoMessage(project, "Please input the module name", "Info")
+            Messages.showInfoMessage(project, "Please enter the module name", "Alert")
             return false
         }
         //Create a file
