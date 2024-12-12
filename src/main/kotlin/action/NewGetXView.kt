@@ -1,9 +1,7 @@
 package action
-
 import com.intellij.ui.JBColor
-import com.intellij.ui.components.JBTabbedPane
 import helper.DataService
-import helper.GetXName
+import helper.GNWFileName
 import java.awt.Container
 import java.awt.FlowLayout
 import java.awt.GridLayout
@@ -12,36 +10,15 @@ import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import javax.swing.*
 
-
 open class NewGetXView(private val getXListener: GetXListener) {
     private val data = DataService.instance
 
     /**
      * Overall popup entity
      */
-    private var jDialog: JDialog = JDialog(JFrame(), "GNW Template Code Produce")
+    private var jDialog: JDialog = JDialog(JFrame(), "GNW File Generator")
     lateinit var nameTextField: JTextField
     lateinit var modeGroup: ButtonGroup
-
-    /**
-     * select Function：main Function
-     */
-//    lateinit var getX5Box: JCheckBox
-//    lateinit var folderBox: JCheckBox
-    lateinit var prefixBox: JCheckBox
-    lateinit var pageViewBox: JCheckBox
-
-    /**
-     * select Function：minor Function
-     */
-    lateinit var disposeBox: JCheckBox
-    lateinit var lifecycleBox: JCheckBox
-    lateinit var bindingBox: JCheckBox
-
-    /**
-     * select Template：Template Function
-     */
-    lateinit var templateGroup: ButtonGroup
 
 
     private val keyListener: KeyListener = object : KeyListener {
@@ -58,7 +35,6 @@ open class NewGetXView(private val getXListener: GetXListener) {
     private val actionChangeListener = ActionListener {
         //data change
         getXListener.onDataChange(this)
-
         //click btn
         if (it.actionCommand == "Cancel") {
             dispose()
@@ -71,20 +47,11 @@ open class NewGetXView(private val getXListener: GetXListener) {
         //Set function button
         val container = jDialog.contentPane
         container.layout = BoxLayout(container, BoxLayout.Y_AXIS)
-
         //Set the main module style: mode, function
         //deal default value
         setMode(container)
-
-        //deal main function, minor function, template function
-        val main = getMainFunction()
-//        val minor = getMinorFunction()
-//        val template = getTemplateFunction()
-//        setFunctionTab(main = main, minor = minor, template = template, container = container)
-
         //Generate module name and ok cancel button
         setModuleAndConfirm(container)
-
         //Choose a pop-up style
         setJDialog()
     }
@@ -99,174 +66,36 @@ open class NewGetXView(private val getXListener: GetXListener) {
         //Set the main module style：mode, function
         template.border = BorderFactory.createTitledBorder("Select Mode")
 
-        //default model
-//        val defaultBtn = JRadioButton(GetXName.ModeDefault, data.modeDefault)
-//        defaultBtn.actionCommand = GetXName.ModeDefault
-//        defaultBtn.addActionListener(actionChangeListener)
-//        defaultBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
-//        template.add(defaultBtn)
-
-        //easy model
-        val easyBtn = JRadioButton(GetXName.ModeEasy, data.modeEasy)
-        easyBtn.actionCommand = GetXName.ModeEasy
-        easyBtn.addActionListener(actionChangeListener)
-        easyBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
-
         //controller code generator button
-        val controllerBtn = JRadioButton(GetXName.Controller, data.Controller)
-        controllerBtn.actionCommand = GetXName.Controller
+        val controllerBtn = JRadioButton(GNWFileName.Controller, data.Controller)
+        controllerBtn.actionCommand = GNWFileName.Controller
         controllerBtn.addActionListener(actionChangeListener)
         controllerBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
 
         //ListView code generator button
-        val listViewBtn = JRadioButton(GetXName.ListView, data.ListView)
-        listViewBtn.actionCommand = GetXName.ListView
+        val listViewBtn = JRadioButton(GNWFileName.ListView, data.ListView)
+        listViewBtn.actionCommand = GNWFileName.ListView
         listViewBtn.addActionListener(actionChangeListener)
         listViewBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
 
-        template.add(easyBtn)
+        //Api Fetch code generator button
+        val apiFetchBtn = JRadioButton(GNWFileName.FetchApi, data.FetchApi)
+        apiFetchBtn.actionCommand = GNWFileName.FetchApi
+        apiFetchBtn.addActionListener(actionChangeListener)
+        apiFetchBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 10)
+
         template.add(controllerBtn)
         template.add(listViewBtn)
+        template.add(apiFetchBtn)
 
         modeGroup = ButtonGroup()
-        modeGroup.add(easyBtn)
         modeGroup.add(controllerBtn)
         modeGroup.add(listViewBtn)
+        modeGroup.add(apiFetchBtn)
 
         container.add(template)
         setSpacing(container)
     }
-
-    /**
-     * Generate file
-     */
-    private fun getMainFunction(): JPanel {
-        //Main Function
-        val main = JPanel()
-        main.layout = GridLayout(2, 2)
-
-        //use getX5
-//        getX5Box = JCheckBox(GetXName.mainUseGetX5, data.function.useGetX5)
-//        getX5Box.addActionListener(actionChangeListener)
-//        setMargin(getX5Box)
-//        main.add(getX5Box)
-
-        //use folder
-//        folderBox = JCheckBox(GetXName.mainUseFolder, data.function.useFolder)
-//        folderBox.addActionListener(actionChangeListener)
-//        setMargin(folderBox)
-//        main.add(folderBox)
-
-        //use prefix
-        prefixBox = JCheckBox(GetXName.mainUsePrefix, data.function.usePrefix)
-        prefixBox.addActionListener(actionChangeListener)
-        setMargin(prefixBox)
-        main.add(prefixBox)
-
-        //pageView
-        pageViewBox = JCheckBox(GetXName.mainIsPageView, data.function.isPageView)
-        pageViewBox.addActionListener(actionChangeListener)
-        setBottomMargin(pageViewBox)
-        main.add(pageViewBox)
-
-        return main
-    }
-
-
-//    private fun getMinorFunction(): JPanel {
-//        //Minor Function
-//        val minor = JPanel()
-//        minor.layout = GridLayout(2, 2)
-//
-//        //add binding
-//        bindingBox = JCheckBox(GetXName.mainAddBinding, data.function.addBinding)
-//        bindingBox.addActionListener(actionChangeListener)
-//        setBottomMargin(bindingBox)
-//        minor.add(bindingBox)
-//
-//        //add lifecycle
-//        lifecycleBox = JCheckBox(GetXName.minorAddLifecycle, data.function.addLifecycle)
-//        lifecycleBox.addActionListener(actionChangeListener)
-//        setMargin(lifecycleBox)
-//        minor.add(lifecycleBox)
-//
-//        //auto dispose
-//        disposeBox = JCheckBox(GetXName.minorAutoDispose, data.function.autoDispose)
-//        disposeBox.addActionListener(actionChangeListener)
-//        setMargin(disposeBox)
-//        minor.add(disposeBox)
-//
-//        return minor
-//    }
-
-//    private fun getTemplateFunction(): JPanel {
-//        //Minor Function
-//        val template = JPanel()
-//        template.layout = GridLayout(2, 2)
-//
-//        //add page
-//        val pageBtn = JRadioButton(GetXName.templatePage, data.templatePage.selected)
-//        pageBtn.actionCommand = GetXName.templatePage
-//        pageBtn.addActionListener(actionChangeListener)
-//        setPadding(pageBtn)
-//        template.add(pageBtn)
-//
-//        //add component
-//        val componentBtn = JRadioButton(GetXName.templateComponent, data.templateComponent.selected)
-//        componentBtn.actionCommand = GetXName.templateComponent
-//        componentBtn.addActionListener(actionChangeListener)
-//        setPadding(componentBtn)
-//        template.add(componentBtn)
-//
-//        //add custom
-//        val customBtn = JRadioButton(GetXName.templateCustom, data.templateCustom.selected)
-//        customBtn.actionCommand = GetXName.templateCustom
-//        customBtn.addActionListener(actionChangeListener)
-//        setBottomPadding(customBtn)
-//        template.add(customBtn)
-//
-//        templateGroup = ButtonGroup()
-//        templateGroup.add(pageBtn)
-//        templateGroup.add(componentBtn)
-//        templateGroup.add(customBtn)
-//
-//        //empty placeholder
-//        template.add(JPanel())
-//
-//        return template
-//    }
-
-//    private fun setFunctionTab(main: JPanel, minor: JPanel, template: JPanel, container: Container) {
-//        val function = JPanel()
-//        function.border = BorderFactory.createTitledBorder("Select Function")
-//
-//        //add tab
-//        val tab = JBTabbedPane()
-//        tab.addTab("Main", main)
-//        tab.addTab("Minor", minor)
-//        tab.addTab("Template", template)
-//        tab.addChangeListener {
-//            data.function.funTabIndex = tab.selectedIndex
-//        }
-//        tab.selectedIndex = data.function.funTabIndex
-//
-//        function.add(tab)
-//        container.add(function)
-//        setSpacing(container)
-//
-//        /// deal listener
-//        pageViewBox.addActionListener {
-//            if (disposeBox.isSelected && pageViewBox.isSelected) {
-//                disposeBox.isSelected = false
-//            }
-//        }
-//        disposeBox.addActionListener {
-//            if (disposeBox.isSelected && pageViewBox.isSelected) {
-//                pageViewBox.isSelected = false
-//            }
-//        }
-//
-//    }
 
     /**
      * Generate file name and button
@@ -314,22 +143,6 @@ open class NewGetXView(private val getXListener: GetXListener) {
         jDialog.pack()
         jDialog.setLocationRelativeTo(null)
         jDialog.isVisible = true
-    }
-
-    private fun setPadding(template: JRadioButton = JRadioButton()) {
-        template.border = BorderFactory.createEmptyBorder(10, 0, 5, 100)
-    }
-
-    private fun setBottomPadding(template: JRadioButton) {
-        template.border = BorderFactory.createEmptyBorder(5, 0, 0, 100)
-    }
-
-    private fun setMargin(box: JCheckBox) {
-        box.border = BorderFactory.createEmptyBorder(10, 0, 5, 100)
-    }
-
-    private fun setBottomMargin(box: JCheckBox) {
-        box.border = BorderFactory.createEmptyBorder(5, 0, 0, 100)
     }
 
     private fun setSpacing(container: Container) {
