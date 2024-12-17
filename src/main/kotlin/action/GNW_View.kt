@@ -1,7 +1,7 @@
 package action
 import com.intellij.ui.JBColor
-import helper.DataService
-import helper.GNWFileName
+import GNW_Helper.GNWDataService
+import GNW_Helper.GNWFileName
 import java.awt.Container
 import java.awt.FlowLayout
 import java.awt.GridLayout
@@ -10,12 +10,10 @@ import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import javax.swing.*
 
-open class NewGetXView(private val getXListener: GetXListener) {
-    private val data = DataService.instance
+open class GNW_View(private val gnw_Listener: GNWListener) {
+    private val data = GNWDataService.instance
 
-    /**
-     * Overall popup entity
-     */
+    //region popup menu
     private var jDialog: JDialog = JDialog(JFrame(), "GNW File Generator")
     lateinit var nameTextField: JTextField
     lateinit var modeGroup: ButtonGroup
@@ -34,7 +32,7 @@ open class NewGetXView(private val getXListener: GetXListener) {
 
     private val actionChangeListener = ActionListener {
         //data change
-        getXListener.onDataChange(this)
+        gnw_Listener.onDataChange(this)
         //click btn
         if (it.actionCommand == "Cancel") {
             dispose()
@@ -56,15 +54,13 @@ open class NewGetXView(private val getXListener: GetXListener) {
         setJDialog()
     }
 
-    /**
-     * Main module
-     */
+
     private fun setMode(container: Container) {
         //Two rows and two columns
         val template = JPanel()
         template.layout = GridLayout(2, 2)
         //Set the main module style：mode, function
-        template.border = BorderFactory.createTitledBorder("Select Mode")
+        template.border = BorderFactory.createTitledBorder("Select File Mode")
 
         //controller code generator button
         val controllerBtn = JRadioButton(GNWFileName.Controller, data.Controller)
@@ -78,28 +74,25 @@ open class NewGetXView(private val getXListener: GetXListener) {
         listViewBtn.addActionListener(actionChangeListener)
         listViewBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 100)
 
-        //Api Fetch code generator button
-        val apiFetchBtn = JRadioButton(GNWFileName.FetchApi, data.FetchApi)
-        apiFetchBtn.actionCommand = GNWFileName.FetchApi
-        apiFetchBtn.addActionListener(actionChangeListener)
-        apiFetchBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 10)
+        //Api Module code generator button
+        val apiModuleBtn = JRadioButton(GNWFileName.ApiModule, data.ApiModule)
+        apiModuleBtn.actionCommand = GNWFileName.ApiModule
+        apiModuleBtn.addActionListener(actionChangeListener)
+        apiModuleBtn.border = BorderFactory.createEmptyBorder(5, 10, 10, 10)
 
         template.add(controllerBtn)
         template.add(listViewBtn)
-        template.add(apiFetchBtn)
+        template.add(apiModuleBtn)
 
         modeGroup = ButtonGroup()
         modeGroup.add(controllerBtn)
         modeGroup.add(listViewBtn)
-        modeGroup.add(apiFetchBtn)
+        modeGroup.add(apiModuleBtn)
 
         container.add(template)
         setSpacing(container)
     }
 
-    /**
-     * Generate file name and button
-     */
     private fun setModuleAndConfirm(container: Container) {
         //input module name
         //Row：Box.createHorizontalBox() | Column：Box.createVerticalBox()
@@ -107,7 +100,7 @@ open class NewGetXView(private val getXListener: GetXListener) {
         val nameField = JPanel()
         val padding = JPanel()
         padding.border = BorderFactory.createEmptyBorder(0, 0, 5, 0)
-        nameField.border = BorderFactory.createTitledBorder("Module Name")
+        nameField.border = BorderFactory.createTitledBorder("Enter File Name")
         nameTextField = JTextField(33)
         nameTextField.addKeyListener(keyListener)
         padding.add(nameTextField)
@@ -153,9 +146,9 @@ open class NewGetXView(private val getXListener: GetXListener) {
 
     private fun confirm() {
         //data change, deal TextField listener
-        getXListener.onDataChange(this)
+        gnw_Listener.onDataChange(this)
 
-        if (getXListener.onSave()) {
+        if (gnw_Listener.onSave()) {
             dispose()
         }
     }
@@ -165,8 +158,8 @@ open class NewGetXView(private val getXListener: GetXListener) {
     }
 }
 
-interface GetXListener {
+interface GNWListener {
     fun onSave(): Boolean
 
-    fun onDataChange(view: NewGetXView)
+    fun onDataChange(view: GNW_View)
 }

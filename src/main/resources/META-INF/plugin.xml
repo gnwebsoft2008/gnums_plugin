@@ -2,14 +2,18 @@
 <idea-plugin>
     <id>com.gnwebsoft.gnw</id>
     <name>GNW File Generator</name>
-    <version>1.0.2</version>
-    <vendor email="divyank.gnwebsoft@example.com" url="https://gitlab.com/divyankraja/gnw_plugin">GNWebsoft</vendor>
+    <version>1.0.3</version>
+    <vendor email="divyank.gnwebsoft@example.com" url="https://github.com/gnwebsoft2008/gnums_plugin">GNWebsoft</vendor>
     <description>Generates GNW structure files for Flutter projects.</description>
     <depends>com.intellij.modules.platform</depends>
     <!-- Write plugin actions -->
     <actions>
         <!-- Add your actions here -->
-        <action id="com.xdd.NewGetX" class="action.NewGNWAction" text="GNW File" description="Create template code"
+<!--        <action id="com.xdd.NewGetX" class="action.NewGNWAction" text="GNW File" description="Create template code"-->
+<!--                icon="/images/ic_gnums_launcher-1.png">-->
+<!--            <add-to-group group-id="NewGroup" anchor="first"/>-->
+<!--        </action>-->
+        <action class="action.GNW_Action" text="GNW File" description="Create template code"
                 icon="/images/ic_gnums_launcher-1.png">
             <add-to-group group-id="NewGroup" anchor="first"/>
         </action>
@@ -17,6 +21,6 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- application level-->
-        <applicationService serviceImplementation="helper.DataService"/>
+        <applicationService serviceImplementation="GNW_Helper.GNWDataService"/>
     </extensions>
 </idea-plugin>

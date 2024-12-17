@@ -1,15 +1,13 @@
-package helper
+package GNW_Helper
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.intellij.util.xmlb.annotations.OptionTag
 
 //custom save location
-@State(name = "DataService", storages = [Storage(value = "DataService.xml")])
-class DataService : PersistentStateComponent<DataService> {
+//@State(name = "DataService", storages = [Storage(value = "DataService.xml")])
+class GNWDataService : PersistentStateComponent<GNWDataService> {
 
     //region GNW List View...
     @JvmField
@@ -31,24 +29,24 @@ class DataService : PersistentStateComponent<DataService> {
 
     //region GNW Api Fetch...
     @JvmField
-    var FetchApi = false
-    @OptionTag(converter = ApiFetchConverter::class)
-    var fetchApi = ApiFetch(
-        FetchApiName = "FetchApi"
+    var ApiModule = false
+    @OptionTag(converter = ApiModuleConverter::class)
+    var apiModule = ApiModule(
+        ApiModuleName = "ApiModule"
     )
     //endregion
 
-    override fun getState(): DataService {
+    override fun getState(): GNWDataService {
         return this
     }
 
-    override fun loadState(state: DataService) {
+    override fun loadState(state: GNWDataService) {
         XmlSerializerUtil.copyBean(state, this)
     }
 
     companion object {
         @JvmStatic
-        val instance: DataService
-            get() = ApplicationManager.getApplication().getService(DataService::class.java)
+        val instance: GNWDataService
+            get() = ApplicationManager.getApplication().getService(GNWDataService::class.java)
     }
 }

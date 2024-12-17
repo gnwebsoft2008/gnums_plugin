@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class ApiFetchData {
 
-  //region 1.0.0 Get Data From Api...
+  //region Get Data From Api ...
   static Future<List<T>> fetchApiData<T>({
+    required BuildContext context,
     required int apiCode,
     required bool isNew,
     required bool isClose,
@@ -16,7 +17,7 @@ class ApiFetchData {
     items.clear();
     ApiExecutor ae = ApiExecutor();
     await ae.callApi(
-      context: Get.context,
+      context: context,
       apiCode: apiCode,
       isNew: isNew,
       isClose: isClose,

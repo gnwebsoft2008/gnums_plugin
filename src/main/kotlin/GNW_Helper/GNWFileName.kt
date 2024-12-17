@@ -1,7 +1,7 @@
-package helper
+package GNW_Helper
 
 object GNWFileName {
     const val Controller = "Controller"
     const val ListView = "List View"
-    const val FetchApi = "Fetch API"
+    const val ApiModule = "API Module"
 }
